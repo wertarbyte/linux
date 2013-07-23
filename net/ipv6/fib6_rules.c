@@ -79,6 +79,14 @@ static int fib6_rule_action(struct fib_rule *rule, struct flowi *flp,
 		struct fib6_rule *r = (struct fib6_rule *)rule;
 
 		/*
+		 * do not accept result if the route does
+		 * not meet the required prefix length
+		 */
+		if (rt->rt6i_dst.plen < rule->table_prefixlen_min) {
+			goto again;
+		}
+
+		/*
 		 * If we need to find a source address for this traffic,
 		 * we check the result if it meets requirement of the rule.
 		 */

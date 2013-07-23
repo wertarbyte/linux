@@ -95,8 +95,17 @@ static int fib4_rule_action(struct fib_rule *rule, struct flowi *flp,
 		goto errout;
 
 	err = fib_table_lookup(tbl, &flp->u.ip4, (struct fib_result *) arg->result, arg->flags);
-	if (err > 0)
+	if (err > 0) {
 		err = -EAGAIN;
+		goto errout;
+	}
+	/* do not accept result if the route does not meet the required prefix length */
+	if (arg->result) {
+		if (((struct fib_result *)arg->result)->prefixlen < rule->table_prefixlen_min) {
+			err = -EAGAIN;
+			goto errout;
+		}
+	}
 errout:
 	return err;
 }
