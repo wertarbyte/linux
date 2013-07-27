@@ -47,7 +47,7 @@ struct fib_rules_ops {
 	int			(*action)(struct fib_rule *,
 					  struct flowi *, int,
 					  struct fib_lookup_arg *);
-	int			(*suppress)(struct fib_rule *,
+	bool			(*suppress)(struct fib_rule *,
 					    struct fib_lookup_arg *);
 	int			(*match)(struct fib_rule *,
 					 struct flowi *, int);

@@ -101,16 +101,16 @@ errout:
 	return err;
 }
 
-static int fib4_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg) {
+static bool fib4_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg) {
 	/* do not accept result if the route does not meet the required prefix length */
 	struct fib_result *result = (struct fib_result *) arg->result;
 	if (result->prefixlen < rule->table_prefixlen_min) {
 		if (!(arg->flags & FIB_LOOKUP_NOREF)) {
 			fib_info_put(result->fi);
 		}
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 static int fib4_rule_match(struct fib_rule *rule, struct flowi *fl, int flags)

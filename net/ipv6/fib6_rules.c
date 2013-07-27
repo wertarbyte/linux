@@ -119,7 +119,7 @@ out:
 	return err;
 }
 
-static int fib6_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg) {
+static bool fib6_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg) {
 	struct rt6_info *rt = (struct rt6_info *) arg->result;
 	/*
 	 * do not accept result if the route does
@@ -127,9 +127,9 @@ static int fib6_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg)
 	 */
 	if (rt->rt6i_dst.plen < rule->table_prefixlen_min) {
 		ip6_rt_put(rt);
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 static int fib6_rule_match(struct fib_rule *rule, struct flowi *fl, int flags)
