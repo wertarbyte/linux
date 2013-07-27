@@ -226,10 +226,11 @@ jumped:
 		else
 			err = ops->action(rule, fl, flags, arg);
 
+		if (!err && ops->suppress && ops->suppress(rule, arg)) {
+			continue;
+		}
+
 		if (err != -EAGAIN) {
-			if (ops->suppress && ops->suppress(rule, arg)) {
-				continue;
-			}
 			if ((arg->flags & FIB_LOOKUP_NOREF) ||
 			    likely(atomic_inc_not_zero(&rule->refcnt))) {
 				arg->rule = rule;
