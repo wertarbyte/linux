@@ -126,6 +126,7 @@ static int fib6_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg)
 	 * not meet the required prefix length
 	 */
 	if (rt->rt6i_dst.plen < rule->table_prefixlen_min) {
+		ip6_rt_put(rt);
 		return 1;
 	}
 	return 0;
