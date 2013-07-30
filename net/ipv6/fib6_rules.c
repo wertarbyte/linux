@@ -119,10 +119,10 @@ out:
 	return err;
 }
 
-static bool fib6_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg) {
+static bool fib6_rule_suppress(struct fib_rule *rule, struct fib_lookup_arg *arg)
+{
 	struct rt6_info *rt = (struct rt6_info *) arg->result;
-	/*
-	 * do not accept result if the route does
+	/* do not accept result if the route does
 	 * not meet the required prefix length
 	 */
 	if (rt->rt6i_dst.plen < rule->table_prefixlen_min) {
