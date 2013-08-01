@@ -226,9 +226,8 @@ jumped:
 		else
 			err = ops->action(rule, fl, flags, arg);
 
-		if (!err && ops->suppress && ops->suppress(rule, arg)) {
+		if (!err && ops->suppress && ops->suppress(rule, arg))
 			continue;
-		}
 
 		if (err != -EAGAIN) {
 			if ((arg->flags & FIB_LOOKUP_NOREF) ||
